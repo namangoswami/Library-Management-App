@@ -7,7 +7,8 @@ import IBook from '../Common/book.interface';
   providedIn: 'root',
 })
 export class GlobalStoreService {
-  connectionStr = 'https://localhost:7057/';
+  // connectionStr = 'https://localhost:7057/';
+  connectionStr = 'https://librarymsbackend.azurewebsites.net/';
   books: any = [];
   issues: any = [];
   token: string | null = '';
