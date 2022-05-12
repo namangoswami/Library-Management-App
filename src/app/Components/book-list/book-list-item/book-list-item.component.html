@@ -1,0 +1,21 @@
+<div class="wrapper" [routerLink]="[bookData.id]"> <div class="cover-image" [style.backgroundImage]="'url('+bookData.coverImage+')'" >
+</div>
+<div class="book-details">
+  <span class="title"> {{bookData.name}}</span>
+  <span class="issues" *ngIf="user.role==true" >{{bookData.issues}} Issue{{bookData.issues!=1?'s':''}}</span>
+  <span class="issues" *ngIf="user.role==true" >{{bookData.activeIssues}} Active Issue{{bookData.activeIssues!=1?'s':''}}</span>
+  <span class="issues" *ngIf="user.role==true" >{{bookData.totalQuantity-bookData.activeIssues}} Available</span>
+  <span class="issues" *ngIf="user.role==false&&bookData.returnDate" >Issue Date: {{issueDate}}</span>
+  <span class="issues" *ngIf="user.role==false&&!returnDate&&expiryDate" >Due Date: {{expiryDate}}</span>
+  <span class="issues" *ngIf="user.role==false&&returnDate" >Return Date: {{returnDate}}</span>
+  <span class="author" >{{bookData.author}}</span>
+</div></div>
+<div class="hamburger"  *ngIf="user.role==true">
+  <button  [matMenuTriggerFor]="menu">
+  <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="deleteBook()"  >Delete</button>
+  </mat-menu>
+
+</div>

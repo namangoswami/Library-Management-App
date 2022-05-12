@@ -1,0 +1,20 @@
+<div class="content">
+  <div>
+
+    <div>
+      Issued To: {{currentIssue.username}}
+    </div>
+    <div>
+      Issued On: {{currentIssue.issueDate}}
+    </div>
+    <div *ngIf="currentIssue.isActive==1" >
+      Expiry Date: {{currentIssue.expiryDate}}
+    </div>
+    <div *ngIf="currentIssue.isActive==0" >
+      Return Date: {{currentIssue.returnDate}}
+    </div>
+    <div *ngIf="currentIssue.isActive==0">
+      Fine: {{currentIssue.fine}}
+    </div>
+  </div>
+</div>

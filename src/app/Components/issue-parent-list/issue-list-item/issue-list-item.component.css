@@ -1,0 +1,48 @@
+:host(app-issue-list-item)
+{
+  position: relative;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.432);
+  backdrop-filter: blur(40px);
+}
+.wrapper{
+  display: flex;
+  overflow: hidden;
+  justify-content: space-between;
+  position:relative;
+  height: 100%;
+  cursor: pointer;
+}
+.cover-image {
+  border-radius: 10px;
+  overflow: hidden;
+  height: 200px;
+}
+.cover-image img{
+  height: 100%;
+}
+.book-details{
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+
+}
+.title{
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.author{
+  position:absolute;
+  bottom: 5px;
+}
+.hamburger{
+  position: absolute;
+  right: 0px;
+  top:0px;
+}
+.hamburger>button{
+  background-color: transparent;
+  cursor: pointer;
+  padding: 10px 3px;
+  border: none;
+}

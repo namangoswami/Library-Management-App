@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>{{ data.type == 0 ? "Add" : "Edit" }} Book</h2>
+<mat-dialog-content>
+  <form>
+    <mat-form-field class="search-input" appearance="outline">
+      <mat-label>Title</mat-label>
+      <input type="text" aria-label="Title" matInput [formControl]="name" onblur="" />
+      <mat-hint style="color: red" *ngIf="name.value == ' '"
+        >The Title is Required</mat-hint
+      >
+    </mat-form-field>
+    <mat-form-field class="search-input" appearance="outline">
+      <mat-label>Author</mat-label>
+      <input type="text" aria-label="Author" matInput [formControl]="author" />
+    </mat-form-field>
+    <mat-form-field class="search-input" appearance="outline">
+      <mat-label>Description</mat-label>
+      <input
+        type="text"
+        aria-label="Description"
+        matInput
+        [formControl]="description"
+      />
+    </mat-form-field>
+    <label>
+      <input type="file" (change)="handleFileSelect($event)" />
+    </label>
+  </form>
+</mat-dialog-content>
+<div class="footer">
+  <button mat-stroked-button color="secondary" mat-dialog-close="true">
+    Cancel
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onSubmit()"
+    *ngIf="data.type == 0"
+  >
+    Add
+  </button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onEdit()"
+    *ngIf="data.type != 0"
+  >
+    Edit
+  </button>
+</div>

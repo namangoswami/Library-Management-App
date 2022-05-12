@@ -1,0 +1,30 @@
+<div class="container">
+  <h2>Login</h2>
+  <form (submit)="onSubmit()">
+    <mat-form-field class="search-input" appearance="outline">
+      <mat-label>Username</mat-label>
+      <input
+        type="text"
+        aria-label="username"
+        matInput
+        [formControl]="username"
+      />
+    </mat-form-field>
+    <mat-form-field class="search-input" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        type="password"
+        aria-label="Password"
+        matInput
+        [formControl]="password"
+      />
+    </mat-form-field>
+
+    <div class="footer">
+      <button type="button" mat-stroked-button (click)="switchNav()">
+        SignUp
+      </button>
+      <button type="submit" mat-flat-button>Login</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,17 @@
+<div class="wrapper" [routerLink]="['/books',issueData.bookId, 'issues',issueData.id]">
+<div class="book-details">
+  <span class="title" *ngIf="issueData.name" >{{issueData.name}}</span>
+  <span class="title"  >Issued to: {{issueData.username}}</span>
+  <span class="">Issue Date: {{issueDate}}</span>
+  <span class=""  *ngIf="issueData.isActive==1" >Expiry Date: {{expiryDate}}</span>
+  <span class=""  *ngIf="issueData.isActive==0" >Return Date: {{returnDate}}</span>
+</div></div>
+<div class="hamburger" *ngIf="issueData.isActive==1" >
+  <button  [matMenuTriggerFor]="menu">
+  <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="returnBook()" >Mark Returned</button>
+  </mat-menu>
+
+</div>

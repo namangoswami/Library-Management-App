@@ -1,0 +1,15 @@
+:host {
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  color: #333;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow-y: auto;
+  background-size: cover;
+  background-image: url('https://picsum.photos/1920/1080');
+}

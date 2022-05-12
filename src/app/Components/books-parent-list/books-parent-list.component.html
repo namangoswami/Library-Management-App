@@ -1,0 +1,5 @@
+<app-book-list [sectionTitle]="'Issued'" [itemList]="adminActiveIssues" *ngIf="adminActiveIssues.length>0" dataType="1" ></app-book-list>
+<app-book-list [sectionTitle]="'Issued'" [itemList]="issues" *ngIf="issues.length>0" ></app-book-list>
+<app-book-list [sectionTitle]="'Books'" [itemList]="books"></app-book-list>
+<app-book-list [sectionTitle]="'Past Issued'" [itemList]="pastIssues" *ngIf="pastIssues.length>0" ></app-book-list>
+<app-book-list [sectionTitle]="'Past Issued'" [itemList]="adminPastIssues" *ngIf="adminPastIssues.length>0" dataType="1" ></app-book-list>

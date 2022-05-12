@@ -1,0 +1,75 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@225&family=Manrope&display=swap");
+
+html,
+body {
+  height: 100%;
+}
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+.router-link{
+  cursor: pointer;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+}
+
+p {
+  margin: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  background-color: #1976d2;
+  color: white;
+  font-weight: 600;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+button {
+  border-radius: 7px !important;
+}
+
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(30px);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: rgb(255, 255, 255, 0.432);
+  backdrop-filter: blur(10px) ;
+	border-radius: 100px;
+}
+
+mat-dialog-container{
+  background: rgba(255, 255, 255, 0.432) !important;
+  backdrop-filter: blur(30px) !important;
+  border-radius: 12px !important;
+}

@@ -1,0 +1,42 @@
+<div class="content" *ngIf="bookData.name!=''" >
+  <div class="image-div" [style.backgroundImage]="'url('+bookData.coverImage+')'" >
+
+  </div>
+    <div class="book-details">
+      <div>
+      <div class="title">{{ bookData.name }}</div>
+      <div class="author">By: {{ bookData.author }}</div>
+      </div>
+
+      <div class="issues" *ngIf="user.role==true" >
+        <div class="available-quantity" *ngIf="user.role==true" >
+          <span> {{bookData.totalQuantity-bookData.activeIssues}} Available </span>
+        </div>
+
+        <button [routerLink]="['issues']"  [disabled]="(bookData.issues==0)?'true':'false'"  mat-stroked-button>
+          {{ bookData.issues }} Issue{{bookData.issues.length!=1?'s':''}}
+        </button>
+      </div>
+      <div class="issue-dates" *ngIf="user.role==false&&currentIssue&&currentIssue.isActive==1" >
+        <span> Issue Date: {{issueDate}} </span>
+        <span *ngIf="!returnDate" > Expiry Date: {{expiryDate}} </span>
+        <span *ngIf="returnDate" > Return Date: {{returnDate}} </span>
+      </div>
+
+    </div>
+  <div class="body">
+    <div class="description-title">Description</div>
+    <div class="body">
+      {{bookData.description}}
+    </div>
+    <div class="footer">
+      <button mat-flat-button color="primary" *ngIf="user.role==false&&requested==false&&bookData.isBookActive==1" (click)="requestBook()" >Request</button>
+      <button mat-flat-button color="primary" *ngIf="user.role==false&&requested==true" (click)="returnBook()" >Return</button>
+      <button mat-flat-button color="primary" *ngIf="user.role==true" (click)="editBook()" >Edit</button>
+    </div>
+  </div>
+</div>
+<div class="content loading-div" *ngIf="bookData.name==''" >
+
+  <mat-spinner></mat-spinner>
+</div>

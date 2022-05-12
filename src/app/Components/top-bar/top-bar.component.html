@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="top-bar">
+        <div class="heading" *ngIf="searchBarShown == false && isDashboard">
+            {{ user.username }}'s Dashboard
+        </div>
+        <div class="heading" *ngIf="searchBarShown == false && !isDashboard">
+            <button mat-button (click)="goHome()">
+        <mat-icon> home </mat-icon>
+      </button>
+        </div>
+        <div class="date" *ngIf="searchBarShown == false">
+            {{ dateStr }}
+        </div>
+        <form class="example-form" *ngIf="searchBarShown" (submit)="onSubmit()">
+            <mat-form-field class="search-input" appearance="outline">
+                <mat-label>Search</mat-label>
+                <input type="text" aria-label="Search Books" matInput [formControl]="myControl" [matAutocomplete]="auto" />
+
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+                        {{ option.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+        <div [style.width]="searchBarShown ? 'fit-content' : '33%'">
+            <button mat-button (click)="addBook()" *ngIf="user.role == true">
+        <mat-icon>add</mat-icon>
+      </button>
+            <button mat-button (click)="toggleSearchBar()">
+        <mat-icon *ngIf="searchBarShown == true">close</mat-icon>
+        <mat-icon *ngIf="searchBarShown == false">search</mat-icon>
+      </button>
+            <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>person</mat-icon>
+      </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="logOut()">Log Out</button>
+            </mat-menu>
+        </div>
+    </div>
+</div>
