@@ -7,20 +7,26 @@ import IBook from '../Common/book.interface';
   providedIn: 'root',
 })
 export class GlobalStoreService {
-  // connectionStr = 'https://localhost:7057/';
-  connectionStr = 'https://librarymsbackend.azurewebsites.net/';
+  connectionStr = 'https://localhost:7057/';
+  // connectionStr = 'https://librarymsbackend.azurewebsites.net/';
   books: any = [];
   issues: any = [];
   token: string | null = '';
   constructor(private http: HttpClient) {
     this.loadingSubject.next(0);
   }
-  getBooks(): Observable<any> {
-    return this.http.get(this.connectionStr + 'books').pipe(
-      catchError((error) => {
-        console.log(error);
-        return throwError(error);
-      })
+  pageSize = 10;
+  getBooks(pageNo = 1): Observable<any> {
+    return (
+      this.http
+        // ?pageNo=${pageNo}&pageSize=${this.pageSize}
+        .get(`${this.connectionStr}books`)
+        .pipe(
+          catchError((error) => {
+            console.log(error);
+            return throwError(error);
+          })
+        )
     );
   }
   @Output() booksSubject = new Subject();
@@ -35,7 +41,9 @@ export class GlobalStoreService {
     console.log('updating loading', this.tempSubjectValue, num);
     this.loadingSubject.next(this.tempSubjectValue);
   }
-
+  getBooksSize(): any {
+    return this.http.get(`${this.connectionStr}books/count`);
+  }
   getBooksStatic(): any {
     this.booksSubject.next(this.books);
     if (this.user.username != 'null')
