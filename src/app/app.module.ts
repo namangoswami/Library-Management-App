@@ -36,6 +36,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CustomInterceptor } from './Services/http-interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SignupComponent } from './Components/signup/signup.component';
+import { GlobalLoaderComponent } from './Components/global-loader/global-loader.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { SignupComponent } from './Components/signup/signup.component';
     LoginComponent,
     PostIssueComponent,
     SignupComponent,
+    GlobalLoaderComponent,
   ],
   imports: [
     BrowserModule,

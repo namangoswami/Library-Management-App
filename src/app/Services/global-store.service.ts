@@ -12,7 +12,9 @@ export class GlobalStoreService {
   books: any = [];
   issues: any = [];
   token: string | null = '';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.loadingSubject.next(0);
+  }
   getBooks(): Observable<any> {
     return this.http.get(this.connectionStr + 'books').pipe(
       catchError((error) => {
@@ -23,6 +25,17 @@ export class GlobalStoreService {
   }
   @Output() booksSubject = new Subject();
   @Output() issuesSubject = new Subject();
+  @Output() loadingSubject = new Subject();
+  tempSubjectValue = 0;
+
+  updateLoading(num: number) {
+    if (num == -1) {
+      if (this.tempSubjectValue != 0) this.tempSubjectValue += num;
+    } else this.tempSubjectValue += num;
+    console.log('updating loading', this.tempSubjectValue, num);
+    this.loadingSubject.next(this.tempSubjectValue);
+  }
+
   getBooksStatic(): any {
     this.booksSubject.next(this.books);
     if (this.user.username != 'null')

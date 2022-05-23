@@ -10,12 +10,14 @@ import {
 import { catchError, Observable, retry, tap, throwError } from 'rxjs';
 import { GlobalStoreService } from './global-store.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {
   constructor(
     private store: GlobalStoreService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private router: Router
   ) {}
 
   intercept(
@@ -25,6 +27,8 @@ export class CustomInterceptor implements HttpInterceptor {
     let reqWithHeaders = req.clone({
       setHeaders: { Authorization: 'bearer ' + this.store.getToken() },
     });
+    console.log('request recieved', reqWithHeaders);
+    this.store.updateLoading(1);
     return next
       .handle(reqWithHeaders)
       .pipe()
@@ -32,8 +36,19 @@ export class CustomInterceptor implements HttpInterceptor {
         catchError((error: HttpErrorResponse) => {
           // alert(error.error);
           // console.log('Intercepted Error: ', error);
+          console.log('in tap', reqWithHeaders);
+          this.store.updateLoading(-1);
           console.log(error);
-          this.snackbar.open(error.error.message, 'Okay', { duration: 2000 });
+          if (error.status == 401) {
+            this.router.navigateByUrl('/login');
+            this.store.logOut();
+          }
+          if (error.error.message)
+            this.snackbar.open(error.error.message, 'Okay', { duration: 2000 });
+          else
+            this.snackbar.open('Internal Server Error', 'Okay', {
+              duration: 2000,
+            });
           return throwError(error);
         }),
         tap({
@@ -42,6 +57,10 @@ export class CustomInterceptor implements HttpInterceptor {
             const message = event?.body?.message;
             if (message)
               this.snackbar.open(message, 'Okay', { duration: 2000 });
+          },
+          finalize: () => {
+            this.store.updateLoading(-1);
+            console.log('in tap', reqWithHeaders);
           },
         })
       );
