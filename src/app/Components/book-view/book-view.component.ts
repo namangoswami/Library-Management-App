@@ -34,6 +34,8 @@ export class BookViewComponent implements OnInit {
       this.id = Number(param.get('bookId'));
       this.service.getBooks().subscribe((data) => {
         this.bookData = data.find((i: any) => this.id === i.id);
+        if (!this.bookData.coverImage)
+          this.bookData.coverImage = `https://cdn-bmkfl.nitrocdn.com/QpdFqIcoTEvEOVPJSaFmHEBkUmzbEvDz/assets/static/optimized/wp-content/plugins/elementor/assets/images/4e1babbdd1538f8e168642eb6888cc04.placeholder.png`;
         this.service
           .getIssuesByUserId(this.user.id)
           .subscribe((issues: any) => {
@@ -41,23 +43,13 @@ export class BookViewComponent implements OnInit {
               (i: any) => i.id == this.bookData.id && i.isActive == 1
             );
             this.requested = this.currentIssue ? true : false;
-            console.log(
-              this.bookData,
-              this.requested,
-              this.currentIssue,
-              issues
-            );
             this.updateDates();
           });
       });
     });
     this.user = this.service.getUser();
-    //   this.service.getBooks().subscribe((data) => {
-    //  this.bookData=data.find((i:any)=>this.id===i.id);
-    // });
   }
   updateBook(name: string, author: string, description: string, image: string) {
-    console.log(this.bookData, name, author, description);
     this.bookData.name = name;
     this.bookData.author = author;
     this.bookData.description = description;
@@ -105,19 +97,11 @@ export class BookViewComponent implements OnInit {
     }
   }
   requestBook() {
-    // this.requested=true;
     const issueDate = new Date(Date.now());
     const expiryDate = new Date(
       issueDate.getFullYear(),
       issueDate.getMonth(),
       issueDate.getDate() + 7
-    );
-    console.log(
-      new Date(
-        issueDate.getFullYear(),
-        issueDate.getMonth(),
-        issueDate.getDate() + 7
-      ).toDateString()
     );
 
     const dialogRef = this.dialog.open(PostIssueComponent, {
@@ -144,12 +128,8 @@ export class BookViewComponent implements OnInit {
   }
   returnBook() {
     const returnDate: any = new Date(Date.now());
-    console.log(this.currentIssue);
-    console.log(new Date(returnDate.toString()).toDateString());
     const multiplier = 10;
     if (!this.currentIssue) return;
-    // this.service.putIssue(this.currentIssue.issueId,this.user.id,this.bookData.id, 0,this.bookData.issueDate, this.bookData.expiryDate, returnDate.toISOString());
-    // this.requested=false;
     let fine: any;
     const days = Math.floor(
       (new Date(Date.now()).getTime() - new Date(this.expiryDate).getTime()) /

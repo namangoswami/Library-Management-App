@@ -5,14 +5,21 @@
     <!-- <div class="spinner-div" *ngIf="filteredList.length <= 0">
     <mat-spinner></mat-spinner>
   </div> -->
-    <div class="grid" [ngClass]="collapsed ? 'collapsed' : ''" *ngIf="dataType == 0 && filteredList.length > 0">
-        <app-book-list-item *ngFor="let book of filteredList" [bookData]="book" [deleteCallback]="deleteCallback">
+    <div class="grid" [ngClass]="collapsed ? 'collapsed' : ''" *ngIf="dataType == 0 && itemList.length > 0">
+        <app-book-list-item *ngFor="let book of itemList" [bookData]="book" [deleteCallback]="deleteCallback">
         </app-book-list-item>
     </div>
     <div class="grid" [ngClass]="collapsed ? 'collapsed' : ''" *ngIf="dataType == 1 && filteredList.length > 0">
         <app-issue-list-item *ngFor="let book of filteredList" [issueData]="book"></app-issue-list-item>
     </div>
-    <div class="pagination-footer" [ngClass]="collapsed ? 'collapsed' : ''" *ngIf="this.itemList.length > this.maxBookCount">
+    <div class="pagination-footer" [ngClass]="collapsed ? 'collapsed' : ''" *ngIf="this.getMaxPagesBook()>1&&this.dataType==0">
+        <button mat-flat-button color="primary" (click)="modifyBookPagination(-1)" [disabled]="this.currentPage == 0">
+      < </button> Page:{{ currentPage + 1 }} of {{ getMaxPagesBook() }}
+        <button mat-flat-button color="primary" (click)="modifyBookPagination(1)" [disabled]="this.currentPage+1 >= this.getMaxPagesBook()">
+          >
+        </button>
+    </div>
+    <div class="pagination-footer" [ngClass]="collapsed ? 'collapsed' : ''" *ngIf="this.itemList.length > this.maxBookCount&&this.dataType==1">
         <button mat-flat-button color="primary" (click)="modifyPagination(-1)" [disabled]="this.currentPage == 0">
       < </button> Page:{{ currentPage + 1 }} of {{ getMaxPages() }}
         <button mat-flat-button color="primary" (click)="modifyPagination(1)" [disabled]="this.currentPage + 1 >= this.getMaxPages()">

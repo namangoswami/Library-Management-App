@@ -27,18 +27,13 @@ export class CustomInterceptor implements HttpInterceptor {
     let reqWithHeaders = req.clone({
       setHeaders: { Authorization: 'bearer ' + this.store.getToken() },
     });
-    console.log('request recieved', reqWithHeaders);
     this.store.updateLoading(1);
     return next
       .handle(reqWithHeaders)
       .pipe()
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          // alert(error.error);
-          // console.log('Intercepted Error: ', error);
-          console.log('in tap', reqWithHeaders);
           this.store.updateLoading(-1);
-          console.log(error);
           if (error.status == 401) {
             this.router.navigateByUrl('/login');
             this.store.logOut();
@@ -53,14 +48,12 @@ export class CustomInterceptor implements HttpInterceptor {
         }),
         tap({
           next: (event: any) => {
-            if (event.body) console.log(event);
             const message = event?.body?.message;
             if (message)
               this.snackbar.open(message, 'Okay', { duration: 2000 });
           },
           finalize: () => {
             this.store.updateLoading(-1);
-            console.log('in tap', reqWithHeaders);
           },
         })
       );

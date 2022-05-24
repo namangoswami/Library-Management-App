@@ -27,7 +27,6 @@ export class BookEditDialogComponent implements OnInit {
     reader.readAsDataURL(file);
 
     reader.onload = () => {
-      console.log(reader.result?.toString());
       this.image = reader.result?.toString();
     };
   }

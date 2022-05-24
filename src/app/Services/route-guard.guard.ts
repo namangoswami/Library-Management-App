@@ -15,10 +15,7 @@ import { GlobalStoreService } from './global-store.service';
 export class RouteGuardGuard implements CanActivate {
   constructor(private store: GlobalStoreService, private router: Router) {}
   canActivate() {
-    // console.log('in guard');
     const user: any = this.store.getUser();
-    // console.log(user);
-    console.log(this.store.getToken());
     if (user.username != 'null' && user.username != null) return true;
     this.router.navigate(['/login']);
     return false;

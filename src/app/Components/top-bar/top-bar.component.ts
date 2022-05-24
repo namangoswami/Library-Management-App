@@ -37,9 +37,9 @@ export class TopBarComponent implements OnInit, OnDestroy {
     let interval: any;
     observer.next(systemDate);
     interval = setInterval(() => {
-      systemDate.setMinutes(systemDate.getMinutes() + 1);
+      systemDate.setSeconds(systemDate.getSeconds() + 1);
       observer.next(systemDate);
-    }, 60000);
+    }, 1000);
 
     return {
       unsubscribe() {
@@ -81,10 +81,6 @@ export class TopBarComponent implements OnInit, OnDestroy {
       startWith(''),
       map((value) => this._filter(value))
     );
-    // this.filteredOptions = this.myControl.valueChanges.pipe(
-    //   startWith(''),
-    //   map((value) => this.service.queryBooks(value).subscribe((list) => list))
-    // );
     this.dateObservable.subscribe({
       next: (val) => {
         this.systemDate = val;
@@ -119,7 +115,6 @@ export class TopBarComponent implements OnInit, OnDestroy {
     ).id;
     if (navId) {
       this.route.navigate(['books', navId]);
-      // this.activatedRoute.paramMap.subscribe()
       this.myControl.setValue('');
       this.searchBarShown = false;
     }
@@ -136,7 +131,6 @@ export class TopBarComponent implements OnInit, OnDestroy {
   handleOnChange() {
     if (this.myControl.value.length >= 3) {
       this.service.queryBooks(this.myControl.value).subscribe((list: any) => {
-        console.log(list);
         this.filteredOptions = [...list];
       });
     }

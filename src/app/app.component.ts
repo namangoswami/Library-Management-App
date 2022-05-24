@@ -23,7 +23,6 @@ export class AppComponent implements OnInit {
       if (val <= 0) {
         this.isLoading = false;
       } else this.isLoading = true;
-      // alert('updated val' + val + ' ' + this.isLoading);
     });
   }
 }

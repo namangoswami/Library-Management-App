@@ -18,14 +18,24 @@ export class BookListComponent implements OnInit, OnChanges {
   @Input() itemList: any = [];
   @Input() dataType: any = 0; //0 book, 1 issue
   maxBookCount = 10;
+  maxBookPages = 0;
+  totalQuantity = 0;
   currentPage = 0;
   filteredList: any = [...this.itemList];
   collapsed: boolean = false;
   ngOnInit(): void {
     this.paginate();
+    if (this.dataType == 0) {
+      this.totalQuantity = this.itemList[0]?.totalQuantity || 0;
+      this.maxBookPages = this.getMaxPagesBook();
+    }
   }
   ngOnChanges(): void {
     this.paginate();
+    if (this.dataType == 0) {
+      this.totalQuantity = this.itemList[0]?.totalQuantity || 0;
+      this.maxBookPages = this.getMaxPagesBook();
+    }
   }
   toggleCollapse = () => {
     this.collapsed = !this.collapsed;
@@ -38,6 +48,7 @@ export class BookListComponent implements OnInit, OnChanges {
     return false;
   }
   getMaxPages = () => Math.ceil(this.itemList.length / this.maxBookCount);
+  getMaxPagesBook = () => Math.ceil(this.totalQuantity / this.maxBookCount);
   modifyPagination(num: number) {
     if (num > 0) {
       if (
@@ -60,6 +71,21 @@ export class BookListComponent implements OnInit, OnChanges {
         k >= this.currentPage * this.maxBookCount &&
         k < (this.currentPage + 1) * this.maxBookCount
     );
-    console.log(this.dataType, this.filteredList);
+  }
+  modifyCurrentPage(num: number) {
+    if (num > 0) {
+      if (this.currentPage < this.maxBookPages + num) {
+        this.currentPage += num;
+      }
+    }
+    if (num < 0) {
+      if (this.currentPage + num >= 0) {
+        this.currentPage += num;
+      }
+    }
+  }
+  modifyBookPagination(num: number) {
+    this.modifyCurrentPage(num);
+    this.store.getBooksStatic(this.currentPage + 1);
   }
 }

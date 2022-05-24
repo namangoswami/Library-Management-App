@@ -7,8 +7,8 @@ import IBook from '../Common/book.interface';
   providedIn: 'root',
 })
 export class GlobalStoreService {
-  // connectionStr = 'https://localhost:7057/';
   connectionStr = 'https://librarymsbackend.azurewebsites.net/';
+  // connectionStr = `https://localhost:7057/`;
   books: any = [];
   issues: any = [];
   token: string | null = '';
@@ -17,17 +17,15 @@ export class GlobalStoreService {
   }
   pageSize = 10;
   getBooks(pageNo = 1): Observable<any> {
-    return (
-      this.http
-        // ?pageNo=${pageNo}&pageSize=${this.pageSize}
-        .get(`${this.connectionStr}books`)
-        .pipe(
-          catchError((error) => {
-            console.log(error);
-            return throwError(error);
-          })
-        )
-    );
+    return this.http
+      .get(
+        `${this.connectionStr}books?pageNo=${pageNo}&pageSize=${this.pageSize}`
+      )
+      .pipe(
+        catchError((error) => {
+          return throwError(error);
+        })
+      );
   }
   @Output() booksSubject = new Subject();
   @Output() issuesSubject = new Subject();
@@ -35,20 +33,17 @@ export class GlobalStoreService {
   tempSubjectValue = 0;
 
   updateLoading(num: number) {
-    if (num == -1) {
-      if (this.tempSubjectValue != 0) this.tempSubjectValue += num;
-    } else this.tempSubjectValue += num;
-    console.log('updating loading', this.tempSubjectValue, num);
+    this.tempSubjectValue += num;
     this.loadingSubject.next(this.tempSubjectValue);
   }
   getBooksSize(): any {
     return this.http.get(`${this.connectionStr}books/count`);
   }
-  getBooksStatic(): any {
+  getBooksStatic(pageNo = 1): any {
     this.booksSubject.next(this.books);
     if (this.user.username != 'null')
       this.user.username = localStorage.getItem('username');
-    this.getBooks().subscribe((books) => {
+    this.getBooks(pageNo).subscribe((books) => {
       this.books = books;
       this.booksSubject.next(books);
     });
@@ -89,14 +84,12 @@ export class GlobalStoreService {
     if (this.user.username == 'null' || this.user.username == null)
       this.user.username = localStorage.getItem('username');
     if (this.user.id == null) {
-      console.log('id null', localStorage.getItem('userId'));
       this.user.id = Number(localStorage.getItem('userId'));
     }
     if (this.user.role == 'null') {
       if (localStorage.getItem('role') == '1') this.user.role = true;
       else this.user.role = false;
     }
-    // console.log('in store', this.user, this.local);
     return this.user;
   }
   getIssues(bookId: Number) {
@@ -121,7 +114,7 @@ export class GlobalStoreService {
         },
         { headers: this.headers }
       )
-      .subscribe((res) => console.log(res));
+      .subscribe((res) => {});
   }
   putBook(name: string, author: string, description: string, id: number): any {
     this.http.put(
@@ -142,7 +135,6 @@ export class GlobalStoreService {
     issues: Number,
     coverImage: any
   ): any {
-    console.log({ name, author, description, id });
     if (!coverImage) coverImage = 'unchanged';
     this.http
       .put(
@@ -223,9 +215,6 @@ export class GlobalStoreService {
     this.user.role = !this.user.role;
   }
   getIssuesByUserId(id: number) {
-    console.log(id);
-    // if(id==null)
-
     return this.http.get(this.connectionStr + 'user/' + id + '/issues', {
       headers: this.headers,
     });
@@ -249,7 +238,6 @@ export class GlobalStoreService {
     });
   }
   setUser(username: string, role: number, token: string, id: number) {
-    console.log('in set user', id);
     localStorage.setItem('username', username);
     localStorage.setItem('role', role.toString());
     localStorage.setItem('userId', id.toString());
@@ -260,10 +248,8 @@ export class GlobalStoreService {
     this.setToken(token);
   }
   setToken(token: string) {
-    console.log(token);
     this.token = token;
     localStorage.setItem('token', this.token);
-    // console.log(this.headers.set('Authorization', `bearer ${token}`));
     this.headers.append('Authorization', `bearer ${token}`);
   }
   logOut() {
