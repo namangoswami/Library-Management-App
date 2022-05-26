@@ -16,12 +16,19 @@ export class GlobalStoreService {
     this.loadingSubject.next(0);
   }
   pageSize = 10;
-  getBooks(pageNo = 1): Observable<any> {
-    return this.http
-      .get(
-        `${this.connectionStr}books?pageNo=${pageNo}&pageSize=${this.pageSize}`
-      )
-      .pipe(
+  getBooks(pageNo: any = null): Observable<any> {
+    if (pageNo)
+      return this.http
+        .get(
+          `${this.connectionStr}books?pageNo=${pageNo}&pageSize=${this.pageSize}`
+        )
+        .pipe(
+          catchError((error) => {
+            return throwError(error);
+          })
+        );
+    else
+      return this.http.get(`${this.connectionStr}books`).pipe(
         catchError((error) => {
           return throwError(error);
         })

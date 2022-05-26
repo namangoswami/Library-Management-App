@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
       .subscribe((res: any) => {
         this.service.setUser(res.username, res.role, res.token, res.id);
         this.router.navigateByUrl('/books');
-        console.log('post routing');
       });
     return false;
   }

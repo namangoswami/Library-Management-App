@@ -18,11 +18,9 @@ export class BooksParentListComponent implements OnInit {
     this.user = this.store.getUser();
     this.store.getBooksStatic();
     this.store.booksSubject.subscribe((obs: any) => {
-      console.log(this.books);
       this.books = [...obs];
     });
     if (this.user.role == false) {
-      console.log('in booklist', this.user.id);
       this.store.getIssuesByUserId(this.user.id).subscribe((issues: any) => {
         this.issues = issues.filter((i: any) => i.isActive == 1);
         this.pastIssues = issues.filter((i: any) => i.isActive == 0);
